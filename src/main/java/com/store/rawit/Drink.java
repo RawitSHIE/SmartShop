@@ -6,7 +6,7 @@ class Drink {
     private String drinkType;
     private double price;
 
-    Drink(int ID, String name, String drinkType, double price) {
+    public Drink(int ID, String name, String drinkType, double price) {
         this.ID = ID;
         this.name = name;
         this.drinkType = drinkType;
@@ -23,6 +23,10 @@ class Drink {
 
     public String getDrinkType() {
         return this.drinkType;
+    }
+
+    public Double getPrice() {
+        return this.price;
     }
 
 
