@@ -4,10 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.google.gson.Gson;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
 @RestController
@@ -28,7 +25,7 @@ public class StoreFacade {
             value = "storefacade/allDrinks",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    String getAllAnimals() {
+    String getAllDrinks() {
         return gson.toJson(storeDatasource.getAllDrinks());
     }
 
@@ -36,7 +33,7 @@ public class StoreFacade {
             value = "storefacade/drink/type/{type}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    String getAnimalByType(@PathVariable String type) {
+    String getDrinkByType(@PathVariable String type) {
         return gson.toJson(this.storeDatasource.getDrinkByType(type));
     }
 
@@ -44,10 +41,21 @@ public class StoreFacade {
             value = "storefacade/drink/id/{id}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    String getAnimalByID(@PathVariable int id) {
+    String getDrinkByID(@PathVariable int id) {
         return gson.toJson(this.storeDatasource.getDrinkByID(id));
     }
 
+    @PostMapping(
+            value="storefacade/addDrink")
+    String addDrink(@RequestBody Drink drink) {
+        Drink addedDrink = storeDatasource.addDrink(
+                drink.getName(),
+                drink.getDrinkType(),
+                drink.getPrice()
+        );
+
+        return addedDrink.getName() + "added";
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(StoreFacade.class, args);
