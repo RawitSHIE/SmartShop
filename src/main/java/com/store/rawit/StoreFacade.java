@@ -2,47 +2,47 @@ package com.store.rawit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @SpringBootApplication
 @RestController
 public class StoreFacade {
 
     StoreDatasource storeDatasource = new StoreDatasource();
-    Gson gson = new Gson();
 
     @RequestMapping("/")
     String home() {
         return "API Documentation\n" +
                 "GET ...storefacade/ => return list of all drinks in store\n" +
                 "GET ...storefacade/drink/type/{type} => return exact type of drinks (Coffee, Smoothiee, Chocolate)\n" +
-                "GET ...storefacade/drink/id/{id} => return exact drink of that id";
+                "GET ...storefacade/drink/id/{id} => return exact drink of that id\n" +
+                "POST .../storefacade/addDrink add drink to store datasource\n" +
+                "DELETE .../storefacade/deleteDrink/{id}` delete drink with specific id\n";
     }
 
     @RequestMapping(
             value = "storefacade/allDrinks",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    String getAllDrinks() {
-        return gson.toJson(storeDatasource.getAllDrinks());
+    List<Drink> getAllDrinks() {
+        return this.storeDatasource.getAllDrinks();
     }
 
     @RequestMapping(
             value = "storefacade/drink/type/{type}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    String getDrinkByType(@PathVariable String type) {
-        return gson.toJson(this.storeDatasource.getDrinkByType(type));
+    List<Drink> getDrinkByType(@PathVariable String type) {
+        return this.storeDatasource.getDrinkByType(type);
     }
 
     @RequestMapping(
             value = "storefacade/drink/id/{id}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    String getDrinkByID(@PathVariable int id) {
-        return gson.toJson(this.storeDatasource.getDrinkByID(id));
+    Drink getDrinkByID(@PathVariable int id) {
+        return this.storeDatasource.getDrinkByID(id);
     }
 
     @PostMapping(
@@ -54,7 +54,7 @@ public class StoreFacade {
                 drink.getPrice()
         );
 
-        return addedDrink.getName() + "added";
+        return addedDrink.getName() + " added";
     }
 
     @DeleteMapping(
