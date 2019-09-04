@@ -12,11 +12,11 @@ public class StoreDatasource {
         this.addDrink("White Chocolate Latté", "Coffee", 220.0);
     }
 
-    List<Drink> getAllDrinks() {
+    public List<Drink> getAllDrinks() {
         return inStoreDrinks;
     }
 
-    List<Drink> getDrinkByType(String type) {
+    public List<Drink> getDrinkByType(String type) {
         List<Drink> filterDrink = new ArrayList<>();
 
         for(Drink drink : this.inStoreDrinks) {
@@ -28,7 +28,7 @@ public class StoreDatasource {
         return filterDrink;
     }
 
-    Drink getDrinkByID(int ID) {
+    public Drink getDrinkByID(int ID) {
         for(Drink drink : this.inStoreDrinks) {
             if (drink.getID() == ID) {
                 return drink;
@@ -38,11 +38,23 @@ public class StoreDatasource {
         return null;
     }
 
-    Drink addDrink(String name, String type, Double price) {
+    public Drink addDrink(String name, String type, Double price) {
         Drink drink = new Drink(this.runningID, name, type, price);
         this.runningID++;
         inStoreDrinks.add(drink);
 
         return drink;
+    }
+
+    public Drink deleteDrink(int id){
+        for (Iterator<Drink> drinks = inStoreDrinks.iterator(); drinks.hasNext();) {
+            Drink drink = drinks.next();
+            if (drink.getID() == id) {
+                inStoreDrinks.remove(drink);
+                return drink;
+            }
+        }
+
+        return null;
     }
 }

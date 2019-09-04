@@ -57,6 +57,17 @@ public class StoreFacade {
         return addedDrink.getName() + "added";
     }
 
+    @DeleteMapping(
+            value="storefacade/deleteDrink/{id}")
+    String deleteDrink(@PathVariable int id) {
+        Drink drink = storeDatasource.deleteDrink(id);
+        if (drink == null) {
+            return "Drink doesn't exist.";
+        }
+
+        return drink.getName() + " successfully deleted.";
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(StoreFacade.class, args);
     }
