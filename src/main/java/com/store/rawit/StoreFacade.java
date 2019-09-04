@@ -54,7 +54,7 @@ public class StoreFacade {
                 drink.getPrice()
         );
 
-        return addedDrink.getName() + "added";
+        return addedDrink.getName() + " added";
     }
 
     @DeleteMapping(
