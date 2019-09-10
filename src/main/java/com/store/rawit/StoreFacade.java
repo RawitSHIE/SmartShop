@@ -9,9 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication
 @RestController
@@ -73,17 +71,20 @@ public class StoreFacade {
 
         return storeRepository.save(newDrink);
     }
-//    TODO DELETE METHOD
-//    @DeleteMapping(
-//            value="storefacade/deleteDrink/{id}")
-//    String deleteDrink(@PathVariable int id) {
-//        Drink drink = storeDatasource.deleteDrink(id);
-//        if (drink == null) {
-//            return "Drink doesn't exist.";
-//        }
-//
-//        return drink.getName() + " successfully deleted.";
-//    }
+
+    @RequestMapping(
+            value="storefacade/deleteDrink/{id}",
+            method = RequestMethod.DELETE)
+    @ResponseStatus
+    Drink deleteDrink(@PathVariable Long id) {
+        return storeRepository.findById(id)
+                .map(drink -> {
+                    storeRepository.delete(drink);
+
+                    return drink;
+                })
+                .orElseThrow(() -> new NotFoundException("id not found"));
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(StoreFacade.class, args);
