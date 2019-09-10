@@ -64,15 +64,15 @@ public class StoreFacade {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("id not found"));
     }
-//    TODO PUT METHOD
-//    @RequestMapping(
-//            value="storefacade/addDrink",
-//            method = RequestMethod.PUT)
-//    String addDrink(@RequestBody Drink drink) {
-//        Drink addedDrink = storeDatasource.addDrink(drink);
-//
-//        return addedDrink.getName() + " added";
-//    }
+
+    @RequestMapping(
+            value="storefacade/addDrink",
+            method = RequestMethod.POST)
+    Drink addDrink(@RequestBody Drink drink) {
+        Drink newDrink = drink;
+
+        return storeRepository.save(newDrink);
+    }
 //    TODO DELETE METHOD
 //    @DeleteMapping(
 //            value="storefacade/deleteDrink/{id}")
