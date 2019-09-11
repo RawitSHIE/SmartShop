@@ -13,7 +13,7 @@ public class Drink {
     private Long id;
 
     @NotNull(message="Lalalalal")
-    @Size(max = 20)
+    @Size(max = 100)
     private String name;
 
     @NotNull(message="Lalalalal")
