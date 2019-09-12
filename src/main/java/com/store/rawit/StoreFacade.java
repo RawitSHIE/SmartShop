@@ -1,24 +1,18 @@
 package com.store.rawit;
 
-import com.store.rawit.exception.NotFoundException;
+import com.store.rawit.datasource.StoreDatasource;
 import com.store.rawit.model.Drink;
-import com.store.rawit.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @SpringBootApplication
 @RestController
 public class StoreFacade {
-//    TODO: Respository can't call in nested method will solve later
-//    StoreDatasource storeDatasource = new StoreDatasource();
-
     @Autowired
-    StoreRepository storeRepository;
+    StoreDatasource storeDatasource = new StoreDatasource();
 
     @RequestMapping("/")
     String home() {
@@ -35,7 +29,7 @@ public class StoreFacade {
             produces = {"application/json"},
             method = RequestMethod.GET)
     List<Drink> getAllDrinks() {
-        return storeRepository.findAll();
+        return storeDatasource.getAllDrinks();
     }
 
     @RequestMapping(
@@ -43,15 +37,7 @@ public class StoreFacade {
             produces = {"application/json"},
             method = RequestMethod.GET)
     List<Drink> getDrinkByType(@PathVariable String type) {
-        List<Drink> drinksType = new ArrayList<>();
-
-        storeRepository.findAll().forEach(drink -> {
-            if (drink.getDrinkType().equals(type)) {
-                drinksType.add(drink);
-            }
-        });
-
-        return drinksType;
+       return storeDatasource.getDrinkByType(type);
     }
 
     @RequestMapping(
@@ -59,17 +45,14 @@ public class StoreFacade {
             produces = {"application/json"},
             method = RequestMethod.GET)
     Drink getDrinkByID(@PathVariable Long id) {
-        return storeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("id not found"));
+        return storeDatasource.getDrinkByID(id);
     }
 
     @RequestMapping(
             value="storefacade/addDrink",
             method = RequestMethod.POST)
     Drink addDrink(@RequestBody Drink drink) {
-        Drink newDrink = drink;
-
-        return storeRepository.save(newDrink);
+        return storeDatasource.addDrink(drink);
     }
 
     @RequestMapping(
@@ -77,13 +60,7 @@ public class StoreFacade {
             method = RequestMethod.DELETE)
     @ResponseStatus
     Drink deleteDrink(@PathVariable Long id) {
-        return storeRepository.findById(id)
-                .map(drink -> {
-                    storeRepository.delete(drink);
-
-                    return drink;
-                })
-                .orElseThrow(() -> new NotFoundException("id not found"));
+      return storeDatasource.deleteDrink(id);
     }
 
     public static void main(String[] args) {

@@ -12,14 +12,14 @@ public class Drink {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NotNull(message="Lalalalal")
-    @Size(max = 20)
+    @NotNull(message="name can\'t be null")
+    @Size(max = 100)
     private String name;
 
-    @NotNull(message="Lalalalal")
+    @NotNull(message="type can\'t be null")
     private String drinkType;
 
-    @NotNull(message="Lalalalal")
+    @NotNull(message="price can\'t be null")
     private double price;
 
     public Drink(){}

@@ -4,6 +4,7 @@
     <list default="true" id="c9b5cd17-3224-4e4a-864e-461673febd71" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/store/rawit/StoreFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store/rawit/StoreFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/store/rawit/model/Drink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/store/rawit/model/Drink.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -128,7 +129,7 @@
       <workItem from="1567653367067" duration="98000" />
       <workItem from="1567653484463" duration="33000" />
       <workItem from="1568101041815" duration="9961000" />
-      <workItem from="1568124688773" duration="4348000" />
+      <workItem from="1568124688773" duration="9871000" />
     </task>
     <servers />
   </component>

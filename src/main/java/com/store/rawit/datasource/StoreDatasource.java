@@ -1,48 +1,53 @@
 package com.store.rawit.datasource;
 
+import com.store.rawit.exception.NotFoundException;
 import com.store.rawit.model.Drink;
 import com.store.rawit.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class StoreDatasource {
 
     @Autowired
     private StoreRepository storeRepository;
 
-    public StoreDatasource() {
-
-    }
-
+    public StoreDatasource() {}
 
     public List<Drink> getAllDrinks() {
-        System.out.println(storeRepository.findAll());
         return storeRepository.findAll();
-
     }
 
     public List<Drink> getDrinkByType(String type) {
-        List<Drink> filterDrink = new ArrayList<>();
+        List<Drink> drinksType = new ArrayList<>();
 
-        for(Drink drink : storeRepository.findAll()) {
-            if (type.equals(drink.getDrinkType())) {
-                filterDrink.add(drink);
+        storeRepository.findAll().forEach(drink -> {
+            if (drink.getDrinkType().equals(type)) {
+                drinksType.add(drink);
             }
-        }
+        });
 
-        return filterDrink;
+        return drinksType;
     }
 
-//    public Drink getDrinkByID(Long id) {
-//        return storeRepository.findById(id);
-//    }
+    public Drink getDrinkByID(Long id) {
+        return storeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("id not found"));
+    }
 
     public Drink addDrink(Drink drink) {
         return storeRepository.save(drink);
     }
 
-//    public Drink deleteDrink(int id){
-//
-//    }
+    public Drink deleteDrink(Long id){
+        return storeRepository.findById(id)
+                .map(drink -> {
+                    storeRepository.delete(drink);
+
+                    return drink;
+                })
+                .orElseThrow(() -> new NotFoundException("id not found"));
+    }
 }
